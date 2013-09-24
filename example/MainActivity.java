@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.webshell.oauth.*;
 
 
-public class MainActivity extends Activity implements OAuthCallback {
+public class MainActivity extends Activity implements OAuthCallback { // implement the OAutCallback interface to get the right information
 
 	Context context = this;
 	OAuthCallback call = this;
@@ -38,13 +38,13 @@ public class MainActivity extends Activity implements OAuthCallback {
         setContentView(R.layout.view);
             
         final OAuth o = new OAuth();
-        o.initialize("l1M0mtaSpzGLwUSTPNrLVfXaorA");
+        o.initialize("l1M0mtaSpzGLwUSTPNrLVfXaorA"); // Initialize the oauth key
         
-        facebookText = (TextView) findViewById(R.id.facebookText);
+        facebookText = (TextView) findViewById(R.id.facebookText); 
         twitterText = (TextView) findViewById(R.id.twitterText);
         
         facebook = (Button) findViewById(R.id.facebook);
-        facebook.setOnClickListener(new View.OnClickListener() {
+        facebook.setOnClickListener(new View.OnClickListener() { // Listen the on click event
             @Override
             public void onClick(View v) 
             {
@@ -52,9 +52,9 @@ public class MainActivity extends Activity implements OAuthCallback {
                 JSONObject opts = new JSONObject();
 
                 try {
-					o.popup("facebook", call, opts, context);
+					o.popup("facebook", call, opts, context); // Launch the pop up with the right provider, callback, options, and context
 				} catch (OAuthException e) {
-					Log.e("ERROR OAUTH ", e.getMessage());
+					Log.e("ERROR OAUTH ", e.getMessage()); // Get the error
 				}
             }
         });
@@ -68,9 +68,9 @@ public class MainActivity extends Activity implements OAuthCallback {
 
                 JSONObject opts = new JSONObject();
                 try {
-					o.popup("twitter", call,  opts, context);
+					o.popup("twitter", call,  opts, context); // Launch the pop up with the right provider, callback, options, and context
 				} catch (OAuthException e) {
-					Log.e("ERROR OAUTH ", e.getMessage());
+					Log.e("ERROR OAUTH ", e.getMessage()); // Listen the on click event
 				}
             }
         });
@@ -78,6 +78,11 @@ public class MainActivity extends Activity implements OAuthCallback {
         
     }
     
+    /*
+    **	Get the information
+    **
+    */
+
 	@Override
 	public void authentificationFinished(OAuthData data) {
 		if (data.status.contains("success"))

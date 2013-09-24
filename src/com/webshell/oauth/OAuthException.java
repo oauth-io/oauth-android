@@ -1,5 +1,10 @@
 package com.webshell.oauth;
 
+/*
+**	Exception class to send the correct error
+**
+*/
+
 public class OAuthException extends Exception{  
  
 	public OAuthException() {}  

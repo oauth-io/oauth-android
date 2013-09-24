@@ -28,6 +28,11 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 import 	android.view.MotionEvent;
 
+/*
+**  Reimplementation of a Webview class to manage correclty input and display
+**
+*/
+
 class OAuthWebview extends WebView
 {
     Context mContext;
@@ -36,6 +41,11 @@ class OAuthWebview extends WebView
     OAuthListener mListerner = null;
     
     
+    /*
+    **  Constructor
+    **
+    */
+
     public OAuthWebview(Context context, String URL, AlertDialog alert)
     {
         super(context);
@@ -50,11 +60,22 @@ class OAuthWebview extends WebView
         return true;
     }
 
+    /*
+    **  Set the listener
+    **
+    */
+
     public void addOAuthListener(OAuthListener l)
     {
     	mListerner = l;
     }
     
+    /*
+    **  Manage the input and the display 
+    **
+    */
+
+
     @SuppressLint("SetJavaScriptEnabled")
     boolean setWebViewClient(String URL)
     {
@@ -93,6 +114,12 @@ class OAuthWebview extends WebView
         {
             ProgressDialog dialog = new ProgressDialog(mContext);
 
+
+            /*
+            **  Manage if the url should be load or not, and get the result of the request
+            **
+            */
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url)
             {
@@ -100,19 +127,20 @@ class OAuthWebview extends WebView
             	try {
 					urldecode = URLDecoder.decode(url, "UTF-8");
 				} catch (UnsupportedEncodingException e) {
-					Log.e("error",e.getMessage());
+					mdata.status = "error";
+                    mdata.error = e.getMessage();
 				}
             	if (urldecode.contains("#oauthio="))
             	{
             		int index = urldecode.indexOf("=");
             		String json = urldecode.substring(0, index + 1);
             		json = urldecode.replace(json, "");
-//            		Log.i("JSON", json);
             		JSONObject jsonObj = null;
             		try {
 						jsonObj = new JSONObject(json);
 					} catch (JSONException e) {
-						Log.e("error",e.getMessage());
+						mdata.status = "error";
+                        mdata.error = e.getMessage(););
 					}
             		try {
             			mdata.status = jsonObj.getString("status");
@@ -123,22 +151,17 @@ class OAuthWebview extends WebView
             				JSONObject data = jsonObj.getJSONObject("data");
             				if (data.has("access_token"))
             					mdata.token = data.getString("access_token");
-            				else
-            				{
+            				else if (data.has("oauth_token"))
             					mdata.token = data.getString("oauth_token");
+                            if (data.has("oauth_token_secret"))
             					mdata.secret = data.getString("oauth_token_secret");
-            				}
             				if (data.has("expires_in"))
-            					mdata.expires_in = data.getString("expires_in");
-//            				Log.i("token", mdata.token);
+            					mdata.expires_in = data.getString("expires_in");;
             			}
-/*            			else
-            				Log.i("status", mdata.status);*/
             			
 					} catch (JSONException e) {
 						mdata.status = "error";
 						mdata.error = e.getMessage();
-						Log.e("error", e.getMessage());
 					}
             		mListerner.authentificationFinished(mAlert, mdata);
             	}
@@ -148,13 +171,23 @@ class OAuthWebview extends WebView
                 return true;
             }
 
+            /*
+            **  Catch the error if an error occurs
+            ** 
+            */
+
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl)
             {
-                Toast.makeText(mContext, " " + description, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, " " + description, Toast.LENGTH_SHORT).show(); //Display the error
                 mdata.status = "error";
                 mdata.error = description;
                 mListerner.authentificationFinished(mAlert, mdata);
             }
+
+            /*
+            **  Display a dialog when the page start
+            **
+            */
 
             public void onPageStarted(WebView view, String url, Bitmap favicon)
             {
@@ -165,6 +198,11 @@ class OAuthWebview extends WebView
                     dialog.show();
                 }
             }
+
+            /*
+            **  Remove the dialog when the page finish loading
+            **
+            */
 
             public void onPageFinished(WebView view, String url)
             {

@@ -24,17 +24,33 @@ public class OAuth implements OAuthListener {
 	OAuthData mData = new OAuthData();
 	OAuthCallback mCallback = null;
 	
+
+	/*
+	**	Initialize the oauth key
+	**
+	*/
+
 	 public void initialize (String key) 
 	 {
 		 _key = key;
 	 }
 	 
 	 
+	 /*
+	 **	Set the default domain for the pop up
+	 **
+	 */
+
 	 public void popup(String provider,  OAuthCallback callback , JSONObject  opts, Context mContext) throws OAuthException
 	 {
 		popup(provider, callback, opts, mContext, "http://localhost");
 	 }
 	 
+	 /*
+	 **	Display the pop up for the authentication of the provider
+	 **
+	 */
+
 	 public void popup (String provider,  OAuthCallback callback , JSONObject  opts, Context mContext, String domain) throws OAuthException
 	 {
 		if (_key == "")
@@ -66,7 +82,6 @@ public class OAuth implements OAuthListener {
 		}
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-		alert.setTitle("Authentication");
 		alert.setCancelable(true);
 
 	    final AlertDialog dial = alert.create();
@@ -77,6 +92,11 @@ public class OAuth implements OAuthListener {
 	    dial.show();
 	 }
 	
+	 /*
+	 **	authentificationFinished is the method called when the authorization is finish
+	 **
+	 */
+
 	 public void authentificationFinished(AlertDialog dial, OAuthData data)
 	  {
 		 mData = data;
@@ -84,6 +104,13 @@ public class OAuth implements OAuthListener {
 		 mCallback.authentificationFinished(data);
 	  }
 	 
+
+	  /*
+	  **	Convert byte in String
+	  **
+	  */
+
+
 	 public static String byteArrayToHexString(byte[] b) {
 		  String result = "";
 		  for (int i=0; i < b.length; i++) {
@@ -93,6 +120,12 @@ public class OAuth implements OAuthListener {
 		  return result;
 		}
 	 
+		/*
+		**	Encrypte byte in SHA1
+		**
+		*/
+
+
 	 public static String toSHA1(byte[] convertme) {
 		    MessageDigest md = null;
 		    try {
@@ -103,6 +136,11 @@ public class OAuth implements OAuthListener {
 		    } 
 		    return byteArrayToHexString(md.digest(convertme));
 		}
+
+	/*
+	**	Create the good hash for the request
+	**
+	*/
 	 
 	 private String create_hash() 
 	 {
