@@ -140,7 +140,7 @@ class OAuthWebview extends WebView
 						jsonObj = new JSONObject(json);
 					} catch (JSONException e) {
 						mdata.status = "error";
-                        mdata.error = e.getMessage(););
+                        mdata.error = e.getMessage();
 					}
             		try {
             			mdata.status = jsonObj.getString("status");
