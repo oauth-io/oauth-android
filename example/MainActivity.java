@@ -1,118 +1,70 @@
-package com.webshell.oauth;
-
-
-import java.io.UnsupportedEncodingException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package io.oauthio.oauth_test;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebSettings;
 import android.widget.Button;
 import android.widget.TextView;
-import com.webshell.oauth.*;
+import io.oauth.*;
 
 
-public class MainActivity extends Activity implements OAuthCallback { // implement the OAutCallback interface to get the right information
+public class MainActivity extends Activity implements OAuthCallback { // implement the OAuthCallback interface to get the right information
 
-	Context context = this;
-	OAuthCallback call = this;
-    /** Called when the activity is first created. */
-	Button twitter;
-	Button facebook;
+	Button facebookButton;
+	Button twitterButton;
 	TextView facebookText;
 	TextView twitterText;
 	
-	
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view);
+        setContentView(R.layout.activity_main);
             
-        final OAuth o = new OAuth();
-        o.initialize("l1M0mtaSpzGLwUSTPNrLVfXaorA"); // Initialize the oauth key
-        
+        final OAuth o = new OAuth(this);
+        o.initialize("hRMMOd7z3NAuUxDSM6-_TUdWeJI"); // Initialize the oauth key
+
+        facebookButton = (Button) findViewById(R.id.facebook);
+        twitterButton = (Button) findViewById(R.id.twitter);
         facebookText = (TextView) findViewById(R.id.facebookText); 
         twitterText = (TextView) findViewById(R.id.twitterText);
-        
-        facebook = (Button) findViewById(R.id.facebook);
-        facebook.setOnClickListener(new View.OnClickListener() { // Listen the on click event
+
+        facebookButton.setOnClickListener(new View.OnClickListener() { // Listen the on click event
             @Override
             public void onClick(View v) 
             {
-
-                JSONObject opts = new JSONObject();
-
-                try {
-					o.popup("facebook", call, opts, context); // Launch the pop up with the right provider, callback, options, and context
-				} catch (OAuthException e) {
-					Log.e("ERROR OAUTH ", e.getMessage()); // Get the error
-				}
+				o.popup("facebook", MainActivity.this); // Launch the pop up with the right provider & callback
             }
         });
         
-        
-        twitter = (Button) findViewById(R.id.twitter);
-        twitter.setOnClickListener(new View.OnClickListener() {
+        twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) 
             {
-
-                JSONObject opts = new JSONObject();
-                try {
-					o.popup("twitter", call,  opts, context); // Launch the pop up with the right provider, callback, options, and context
-				} catch (OAuthException e) {
-					Log.e("ERROR OAUTH ", e.getMessage()); // Listen the on click event
-				}
+				o.popup("twitter", MainActivity.this); // Launch the pop up with the right provider & callback
             }
         });
         
         
     }
+
     
     /*
     **	Get the information
     **
     */
-
-	@Override
-	public void authentificationFinished(OAuthData data) {
-		if (data.status.contains("success"))
-		{
-			if (data.provider.contains("twitter"))
-			{
-				twitter.setEnabled(false);
-				twitterText.setText("You are now authenticate on " + data.provider);
-				twitterText.setTextColor(Color.parseColor("#00FF00"));
-				
-			}
-			else
-			{
-				facebook.setEnabled(false);
-				facebookText.setText("You are now authenticate on " + data.provider );
-				facebookText.setTextColor(Color.parseColor("#00FF00"));
-			}
-		}
-		else
-			if (data.provider.contains("twitter"))
-			{
-				twitter.setEnabled(true);
-				twitterText.setText("Error of authentification on " + data.provider);
-				twitterText.setTextColor(Color.parseColor("#FF0000"));
-			}
-			else
-			{
-				facebook.setEnabled(false);
-				facebookText.setText("Error of authentification on " + data.provider);
-				facebookText.setTextColor(Color.parseColor("#FF0000"));
-			}
+    public void onFinished(OAuthData data) {
+		String text = data.status + ", ";
+		if (data.error != null)
+			text += data.error;
+		if (data.token != null)
+			text += "token = " + data.token;
+		if (data.secret != null)
+			text += " & secret = " + data.secret;
+		
+		TextView textview = data.provider.contains("twitter") ? twitterText : facebookText;
+		textview.setText(text);
+		textview.setTextColor(Color.parseColor(data.status.contains("success") ? "#00FF00" : "#FF0000"));
 	}
 }
