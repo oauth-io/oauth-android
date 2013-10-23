@@ -1,4 +1,3 @@
-
 # OAuth.io Android SDK
 
 This is the official android sdk for [OAuth.io](https://oauth.io) !
@@ -72,6 +71,6 @@ The OAuthData class contain all the OAuth information :
 
 2. Install OAuth.io Android sdk into the project
 
-3. Replace the generated example _res/layout/activity_main.xml_ , _MainActivity.java_ with the files included in the example folder. Don't forget to add uses-permission android:name="android.permission.INTERNET"  to your AndroidManifest.xml. A valid key is provided, but you can do your own app on [OAuth.io](https://oauth.io/).
+3. Replace the generated example *res/layout/activity_main.xml* , _MainActivity.java_ with the files included in the example folder. Don't forget to add uses-permission android:name="android.permission.INTERNET"  to your AndroidManifest.xml. A valid key is provided, but you can do your own app on [OAuth.io](https://oauth.io/).
 
 4. Plug your phone & run it ! (or use a virtual device)
