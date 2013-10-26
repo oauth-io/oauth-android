@@ -16,7 +16,7 @@ public class OAuth {
 	String _key = "";
 	String oauthd_url = "https://oauth.io/auth";
 	Context mContext = null;
-	
+
 	/*
     **  Constructor
     **
@@ -27,14 +27,24 @@ public class OAuth {
 	}
 
 	/*
+    **  Constructor with custom oauthd url
+    **
+    */
+	public OAuth(Context context, String oauthd_url)
+	{
+		mContext = context;
+		this.oauthd_url = oauthd_url;
+	}
+
+	/*
 	**	Initialize the oauth key
 	**
 	*/
-	public void initialize (String key) 
+	public void initialize (String key)
 	{
 		_key = key;
 	}
-	 
+
 	/*
 	**	Display the pop up for the authentication of the provider
 	**
@@ -44,7 +54,7 @@ public class OAuth {
 		JSONObject opts = new JSONObject();
 		this.popup(provider,  opts, callback);
 	}
-	 
+
 	/*
 	**	Display the pop up for the authentication of the provider
 	**
@@ -66,7 +76,7 @@ public class OAuth {
 			} catch (JSONException e) {
 			}
 		}
-		
+
 		String url = oauthd_url + "/" + provider + "?k=" + _key;
 		try {
 			url += "&redirect_uri=" + URLEncoder.encode("http://localhost", "UTF-8");
@@ -80,7 +90,7 @@ public class OAuth {
 		dial.getData().provider = provider;
 	    dial.show();
 	 }
- 
+
 
 	/*
 	**	Convert byte in String
@@ -105,7 +115,7 @@ public class OAuth {
 		}
 		catch(NoSuchAlgorithmException e) {
 			e.printStackTrace();
-		} 
+		}
 		return byteArrayToHexString(md.digest(convertme));
 	}
 
@@ -114,7 +124,7 @@ public class OAuth {
 	**	Create the good hash for the request
 	**
 	*/
-	private String create_hash() 
+	private String create_hash()
 	{
 		String hash = String.valueOf(new Date().getTime());
 		hash += ':' + Math.floor(Math.random()*9999999);
