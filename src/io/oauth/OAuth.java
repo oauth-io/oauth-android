@@ -13,46 +13,80 @@ import android.util.Base64;
 
 public class OAuth {
 
-	String _key = "";
-	String oauthd_url = "https://oauth.io/auth";
-	Context mContext = null;
+	private String _key = "";
+	private String oauthd_url = "https://oauth.io";
+	private Context mContext = null;
 	
-	/*
-    **  Constructor
-    **
-    */
+	/**
+     * Constructor
+     */
 	public OAuth(Context context)
 	{
 		mContext = context;
 	}
 
-	/*
-	**	Initialize the oauth key
-	**
-	*/
-	public void initialize (String key) 
+	/**
+	 * Initialize the oauthd/oauth.io key
+	 *
+	 * @param key The public key to use
+	 */
+	public void initialize(String key) 
 	{
 		_key = key;
 	}
-	 
-	/*
-	**	Display the pop up for the authentication of the provider
-	**
-	*/
+	
+	/**
+	 * @return The public key used
+	 */
+	public String getPublicKey()
+	{
+		return _key;
+	}
+	
+	/**
+	 * Set a oauthd URL. By default, this is set to https://oauth.io
+	 * 
+	 * @param url The oauth daemon url to set. You can download oauthd at
+	 * <a href="https://github.com/oauth-io/oauthd">https://github.com/oauth-io/oauthd</a>
+	 */
+	public void setOAuthdURL(String url)
+	{
+		oauthd_url = url;
+	}
+	
+	/**
+	 * @return The current oauth daemon URL
+	 */
+	public String getOAuthdURL()
+	{
+		return oauthd_url;
+	}
+	
+	/**
+	 * Display a full screen authorization webview
+	 * 
+	 * @param provider The provider's name. e.g. facebook, google, twitter...
+	 * @param callback An OAuthCallback implementing onFinished
+	 */
 	public void popup (String provider, OAuthCallback callback)
 	{
 		JSONObject opts = new JSONObject();
 		this.popup(provider,  opts, callback);
 	}
 	 
-	/*
-	**	Display the pop up for the authentication of the provider
-	**
-	*/
+	/**
+	 * Display a full screen authorization webview
+	 * 
+	 * @param provider The provider's name. e.g. facebook, google, twitter...
+	 * @param opts A JSONObject containing additional options.
+	 * It can contain an "authorize" JSONObject with additional query parameters
+	 * to pass to the authorize url.
+	 * @param callback An OAuthCallback implementing onFinished
+	 */
 	public void popup (String provider, JSONObject opts, OAuthCallback callback)
 	{
 		if (_key == "") {
-			OAuthData data = new OAuthData();
+			OAuthData data = new OAuthData(this);
 			data.status = "error";
 			data.error = "Oauth must be initialized with a valid key";
 			callback.onFinished(data);
@@ -67,7 +101,7 @@ public class OAuth {
 			}
 		}
 		
-		String url = oauthd_url + "/" + provider + "?k=" + _key;
+		String url = oauthd_url + "/auth/" + provider + "?k=" + _key;
 		try {
 			url += "&redirect_uri=" + URLEncoder.encode("http://localhost", "UTF-8");
 			if (opts != null)
@@ -75,7 +109,7 @@ public class OAuth {
 		} catch (UnsupportedEncodingException e) {
 		}
 
-		OAuthDialog dial = new OAuthDialog(mContext, url);
+		OAuthDialog dial = new OAuthDialog(mContext, this, url);
 		dial.setOAuthCallback(callback);
 		dial.getData().provider = provider;
 	    dial.show();
@@ -86,7 +120,7 @@ public class OAuth {
 	**	Convert byte in String
 	**
 	*/
-	public static String byteArrayToHexString(byte[] b) {
+	private String byteArrayToHexString(byte[] b) {
 		String result = "";
 		for (int i=0; i < b.length; i++)
 			result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
@@ -98,7 +132,7 @@ public class OAuth {
 	**	Encrypte byte in SHA1
 	**
 	*/
-	public static String toSHA1(byte[] convertme) {
+	private String toSHA1(byte[] convertme) {
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("SHA-1");

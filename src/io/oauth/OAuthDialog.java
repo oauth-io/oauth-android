@@ -26,6 +26,10 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+/**
+ * A full screen OAuth dialog which contains a webview. This takes an authorize url
+ * and returns a filled OAuthData in the OAuthCallback.onFinished method.
+ */
 public class OAuthDialog extends Dialog {
 
 	private ProgressDialog mProgress;
@@ -40,19 +44,29 @@ public class OAuthDialog extends Dialog {
 
 	/**
 	 * @param context
+	 * @param o The OAuth object which calls this dialog
+	 * @param url The authorize url
 	 */
-	public OAuthDialog(Context context, String url) {
+	public OAuthDialog(Context context, OAuth o, String url) {
 		super(context);
-		mdata = new OAuthData();
+		mdata = new OAuthData(o);
 		mUrl = url;
 	}
 	
+	/**
+	 * 
+	 * @return The used OAuthData
+	 */
 	public OAuthData getData() {
 		return mdata;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
+	/**
+	 * When the dialog is created, we add the webview and load the authorize url.
+	 */
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -86,9 +100,15 @@ public class OAuthDialog extends Dialog {
 		
 	}
 	
+	/**
+	 * Set the callback when the authorization ends.
+	 * 
+	 * @param callback
+	 */
 	public void setOAuthCallback(OAuthCallback callback) {
 		mListener = callback;
 	}
+
 
 	private class OAuthWebViewClient extends WebViewClient {
 
@@ -134,6 +154,8 @@ public class OAuthDialog extends Dialog {
 	     				mdata.secret = data.getString("oauth_token_secret");
 	     			if (data.has("expires_in"))
 	     				mdata.expires_in = data.getString("expires_in");
+	     			if (data.has("request"))
+	     				mdata.request = data.getJSONObject("request");
 	     		}
 	     		if (mdata.status.contains("error"))
 	     		{
