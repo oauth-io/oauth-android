@@ -72,7 +72,7 @@ You can pass the url of the API call (the url can be absolute or relative to the
 The implementation is left to you because this design choice allow you to make the request with your preferred way, which can be `URLConnection` / `HttpURLConnection`, `HttpRequest`, or any third party library.
 
  ```java
-data.http(data.provider.equals("facebook") ? "/me" : "/1.1/account/verify_credentials.json", new OAuthRequest() {
+data.http("/me", new OAuthRequest() {
     @Override
     public void onSetURL(String _url) {
         // This method is called once the final url is returned.
