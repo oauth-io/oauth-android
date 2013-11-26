@@ -1,4 +1,3 @@
-
 # OAuth.io Android SDK
 
 This is the official android sdk for [OAuth.io](https://oauth.io) !
