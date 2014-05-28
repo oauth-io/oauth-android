@@ -18,9 +18,9 @@ First you need to create an android project in eclipse for example
 To install the sdk android just download oauth.jar and put it in your libs directory
 Then refresh the libs directory in eclipse, right click on the oauth.jar and add it in your build path
 
-You MUST add the line : 
-  <uses-permission android:name="android.permission.INTERNET" />
-in your _AndroidManifest.xml_ in the manifest tag
+You MUST add the line in your _AndroidManifest.xml_ in the manifest tag:
+    
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
 ### Usage
