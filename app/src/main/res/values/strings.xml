@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OAuthioTest</string>
+    <string name="action_settings">Settings</string>
+    <string name="signin">Signin</string>
+    <string name="signup">Signup</string>
+    <string name="signin_with">Sign in with</string>
+    <string name="OrWithEmail">Or with your email address</string>
+    <string name="sign_in">Sign-in</string>
+    <string name="sign_up">Sign-up</string>
+    <string name="signup_with">Sign up with</string>
+    <string name="LOGIN">LOG IN</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="createAccount">CREATE ACCOUNT</string>
+    <string name="logout">LOGOUT</string>
+
+</resources>

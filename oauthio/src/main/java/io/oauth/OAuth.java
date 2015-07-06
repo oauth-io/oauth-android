@@ -101,7 +101,7 @@ public class OAuth {
 			}
 		}
 		
-		String url = oauthd_url + "/auth/" + provider + "?k=" + _key;
+		String url = oauthd_url + "/auth/" + provider + "?mobile=true&k=" + _key;
 		try {
 			url += "&redirect_uri=" + URLEncoder.encode("http://localhost", "UTF-8");
 			if (opts != null)

@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/layoutBasicInfos">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/imageProfile" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/imageProfile"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:text="TESTTTTTTT"
+                android:id="@+id/textFullname" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/imageProfile"
+                android:layout_below="@id/textFullname"
+                android:layout_margin="2dp"
+                android:layout_marginLeft="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:text="TESTTTTTTT"
+                android:id="@+id/textEmail" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Connected with"
+            android:id="@+id/connectedWith"
+            android:layout_below="@+id/layoutBasicInfos"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/connectedWith"
+            android:layout_marginTop="3dp"
+            android:layout_centerHorizontal="true"
+            android:divider="@drawable/hdivider"
+            android:showDividers="middle"
+            android:id="@+id/layoutConnects">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/logo_fb"
+                android:tag="facebook"
+                android:id="@+id/imageLogoFb"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/logo_tw"
+                android:tag="twitter"
+                android:id="@+id/imageLogoTw"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/logo_google"
+                android:tag="google"
+                android:id="@+id/imageLogoGoogle"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/logo_lin"
+                android:tag="linkedin"
+                android:id="@+id/imageLogoLin"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/logo_gh"
+                android:tag="github"
+                android:id="@+id/imageLogoGh"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:text="Sync"
+                android:id="@+id/syncBtn" />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:text="Rem"
+                android:id="@+id/remBtn" />
+
+        </LinearLayout>
+
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:id="@+id/listView"
+            android:layout_below="@+id/layoutConnects"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

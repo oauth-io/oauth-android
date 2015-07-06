@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/oauthio_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="@style/buttonTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signin"
+        android:id="@+id/mainbtn1"
+        android:onClick="onSigninClick"
+        android:layout_marginRight="100dp"
+        android:layout_marginEnd="73dp"
+        android:layout_alignTop="@+id/mainbtn2"
+        android:layout_alignRight="@+id/mainbtn2"
+        android:layout_alignEnd="@+id/mainbtn2" />
+
+    <Button
+        style="@style/buttonTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup"
+        android:id="@+id/mainbtn2"
+        android:onClick="onSignupClick"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="0dp"
+        android:layout_marginEnd="0dp" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        tools:context=".MainActivity" tools:ignore="MergeRootFrame"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="@dimen/activity_vertical_margin" />
+</RelativeLayout>

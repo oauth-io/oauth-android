@@ -48,7 +48,7 @@ public class OAuthDialog extends Dialog {
 	 * @param url The authorize url
 	 */
 	public OAuthDialog(Context context, OAuth o, String url) {
-		super(context);
+		super(context, android.R.style.Theme);
 		mdata = new OAuthData(o);
 		mUrl = url;
 	}

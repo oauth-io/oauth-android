@@ -1,5 +1,7 @@
 package io.oauth;
 
+import io.oauth.OAuthData;
+
 /**
  * The OAuthRequest class contains abstract method you can implement to set your
  * http request's url and add headers to inject your oauth tokens.

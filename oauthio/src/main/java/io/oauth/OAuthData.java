@@ -1,11 +1,14 @@
 package io.oauth;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.json.JSONObject;
 
-import android.util.Log;
+import io.oauth.http.OAuthJSONCallback;
+import io.oauth.http.OAuthJSONRequest;
 
 /**
  *	Class with all the information of the authentication
@@ -52,7 +55,6 @@ public class OAuthData {
 				String oauthio_header = "k=" + _oauth.getPublicKey() + "&oauthv=1"
 						+ "&oauth_token=" + URLEncoder.encode(token, "UTF-8")
 						+ "&oauth_token_secret=" + URLEncoder.encode(secret, "UTF-8");
-				Log.d("OAuthData", "oauthio header " + oauthio_header);
 				setters.onSetURL(url);
 				setters.onSetHeader("oauthio", oauthio_header);
 				setters.onReady();
@@ -71,21 +73,17 @@ public class OAuthData {
 				
 				String qs = "";
 				if (request.has("query")) {
-					Log.d("OAuthData", "has query");
 					JSONObject query = request.getJSONObject("query");
 					Iterator<?> keys = query.keys();
 					while (keys.hasNext()) {
 						String key = (String)keys.next();
 						String val = (String)query.get(key);
-						Log.d("OAuthData", "key " + key + ", val " + val);
 						if (val.equals("{{token}}"))
 							val = token;
 						qs += "&" + URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(val, "UTF-8");
 					}
 				}
-				
-				Log.d("OAuthData", "final qs: " + qs);
-				
+
 				if (qs.length() > 0 && url.indexOf("?") == -1)
 					qs = "?" + qs.substring(1);
 				url += qs;
@@ -110,4 +108,52 @@ public class OAuthData {
 		}
 		catch (Exception e) { setters.onError(e.getMessage()); }
 	}
+
+    public void http(final OAuthJSONRequest jsonRequest, final OAuthJSONCallback jsonCallback) {
+        http(jsonRequest.httpReq.url, new OAuthRequest() {
+            @Override
+            public void onSetURL(String url) {
+                jsonRequest.httpReq.url = url;
+            }
+
+            @Override
+            public void onSetHeader(String header, String value) {
+                if (jsonRequest.httpReq.headers == null)
+                    jsonRequest.httpReq.headers = new Hashtable<String, String>();
+                jsonRequest.httpReq.headers.put(header, value);
+            }
+
+            @Override
+            public void onReady() {
+                jsonRequest.execute(jsonCallback);
+            }
+
+            @Override
+            public void onError(String message) {
+                jsonCallback.onError(message);
+            }
+        });
+    }
+
+    public void me(OAuthJSONCallback callback) {
+        String url = _oauth.getOAuthdURL() + "/auth/" + provider + "/me";
+
+        String oauthio_header = "k=" + _oauth.getPublicKey();
+        try {
+            //url = "http://httpbin.org/get?" + URLEncoder.encode(url, "UTF-8");
+            if (token != null && secret != null)
+                oauthio_header += "&oauthv=1"
+                                + "&oauth_token=" + URLEncoder.encode(token, "UTF-8")
+                                + "&oauth_token_secret=" + URLEncoder.encode(secret, "UTF-8");
+            else
+                oauthio_header += "&access_token=" + URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Hashtable<String, String> headers = new Hashtable<>();
+        headers.put("oauthio", oauthio_header);
+
+        new OAuthJSONRequest().http(OAuthJSONRequest.HTTP_GET, url, null, headers, callback);
+    }
 }

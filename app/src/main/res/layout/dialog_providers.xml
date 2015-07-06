@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo_fb"
+        android:tag="facebook"
+        android:id="@+id/imageLogoFb"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo_tw"
+        android:tag="twitter"
+        android:id="@+id/imageLogoTw"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo_google"
+        android:tag="google"
+        android:id="@+id/imageLogoGoogle"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo_lin"
+        android:tag="linkedin"
+        android:id="@+id/imageLogoLin"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo_gh"
+        android:tag="github"
+        android:id="@+id/imageLogoGh"
+        android:visibility="gone" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Cancel"
+        android:tag=""
+        android:id="@+id/cancelButton" />
+
+</LinearLayout>
