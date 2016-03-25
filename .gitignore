@@ -2,10 +2,6 @@
 /.idea
 /.navigation
 /build
-/gradle
-/*.gradle
-/gradlew
-/gradlew.bat
 /*.iml
 /*.properties
 .DS_Store
